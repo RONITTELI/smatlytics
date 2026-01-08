@@ -1,88 +1,130 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
-import "./analytics-hub.css"; // Add this import
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import "./analytics-hub.css";
 
 function AnalyticsHub() {
   const [query, setQuery] = useState("");
+  const navigate = useNavigate();
 
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-  // 🔐 Protect route
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    navigate("/login");
+  };
 
   const modules = [
     {
       title: "Dataset Generator",
       desc: "Practice with sample datasets",
       path: "/dashboard",
-      featured: true,
       icon: "📦",
-      stats: { items: 12, views: "1.2k", lastRun: "2h" },
+      status: "Active",
+      updated: "2h ago",
+      stats: { items: 12, views: "1.2k" },
     },
     {
       title: "Raw Data Cleaning",
       desc: "Upload CSV/Excel and clean data",
       path: "/data-clean",
       icon: "📤",
-      stats: { items: 5, views: "860", lastRun: "1d" },
+      status: "Active",
+      updated: "1d ago",
+      stats: { items: 5, views: "860" },
     },
     {
       title: "Auto Dashboard Generator",
       desc: "AI-powered dashboard creation",
       path: "/auto-dashboard",
       icon: "📈",
-      stats: { items: 22, views: "2.3k", lastRun: "30m" },
+      status: "Active",
+      updated: "30m ago",
+      stats: { items: 22, views: "2.3k" },
     },
     {
       title: "Anomaly Detection",
       desc: "Spot unusual patterns automatically",
       path: "/anomaly",
       icon: "⚠️",
-      stats: { items: 3, views: "210", lastRun: "3h" },
+      status: "Preview",
+      updated: "3h ago",
+      stats: { items: 3, views: "210" },
     },
     {
       title: "Time Series Explorer",
       desc: "Interactive time series viewer",
       path: "/timeseries",
       icon: "⏱️",
-      stats: { items: 8, views: "540", lastRun: "5h" },
+      status: "Active",
+      updated: "5h ago",
+      stats: { items: 8, views: "540" },
     },
     {
       title: "Model Manager",
       desc: "Train and deploy ML models",
       path: "/models",
       icon: "🤖",
-      stats: { items: 2, views: "1.1k", lastRun: "12h" },
+      status: "Inactive",
+      updated: "12h ago",
+      stats: { items: 2, views: "1.1k" },
     },
     {
       title: "Report Builder",
       desc: "Design and schedule PDF reports",
       path: "/reports",
       icon: "📄",
-      stats: { items: 14, views: "980", lastRun: "2d" },
+      status: "Active",
+      updated: "2d ago",
+      stats: { items: 14, views: "980" },
     },
     {
       title: "Data Catalog",
       desc: "Search datasets and schema",
       path: "/catalog",
       icon: "🔎",
-      stats: { items: 34, views: "3.4k", lastRun: "4d" },
+      status: "Active",
+      updated: "4d ago",
+      stats: { items: 34, views: "3.4k" },
     },
     {
       title: "Feature Store",
       desc: "Manage reusable features",
       path: "/features",
       icon: "🧩",
-      stats: { items: 11, views: "400", lastRun: "6h" },
+      status: "Preview",
+      updated: "6h ago",
+      stats: { items: 11, views: "400" },
     },
     {
-      title: "Automation Rules",
-      desc: "Schedule pipeline automations",
-      path: "/automation",
-      icon: "🔁",
-      stats: { items: 7, views: "650", lastRun: "8h" },
+      title: "A/B Testing",
+      desc: "Run and analyze A/B tests",
+      path: "/ab-testing",
+      icon: "🧪",
+      status: "Preview",
+      updated: "1d ago",
+      stats: { items: 6, views: "320" },
+    },
+    {
+      title: "Customer Segmentation",
+      desc: "Group customers by behavior",
+      path: "/segmentation",
+      icon: "👥",
+      status: "Active",
+      updated: "3d ago",
+      stats: { items: 10, views: "980" },
+    },
+    {
+      title: "Forecast",
+      desc: "Predict future trends",
+      path: "/forecast",
+      icon: "🔮",
+      status: "Active",
+      updated: "8h ago",
+      stats: { items: 4, views: "450" },
     },
   ];
 
@@ -95,62 +137,80 @@ function AnalyticsHub() {
   });
 
   return (
-    <div className="analytics-hub">
-      <nav className="analytics-navbar" aria-label="Primary navigation">
+    <div className="analytics-hub-page">
+      <nav className="hub-navbar">
         <div className="nav-inner">
           <div className="nav-left">
-            <div className="nav-logo">Smartlytics</div>
-            <div className="nav-links">
-              <Link to="/dashboard" className="nav-link">Dashboard</Link>
-              <Link to="/data-clean" className="nav-link">Data Clean</Link>
-              <Link to="/auto-dashboard" className="nav-link">Auto Dashboard</Link>
-            </div>
+            <div className="nav-logo">✨ Smartlytics</div>
           </div>
-
           <div className="nav-right">
-            <button className="nav-cta">New Project</button>
-            <div className="nav-avatar" title="Signed in">SM</div>
+            <button className="nav-cta">+ New Project</button>
+            <button className="nav-logout" onClick={handleLogout}>Logout</button>
           </div>
         </div>
       </nav>
-      <div className="hub-header">
-        <h2>📊 Analytics Hub</h2>
-        <p className="hub-subtitle">Launch pipelines, clean data and generate dashboards — all in one place.</p>
 
-        <div className="hub-controls">
-          <input
-            className="analytics-search"
-            placeholder="Search modules..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            aria-label="Search modules"
-          />
+      <div className="hub-main">
+        <div className="hub-header">
+          <h1>📊 Analytics Hub</h1>
+          <p>Launch pipelines, clean data and generate dashboards — all in one place</p>
         </div>
-      </div>
 
-      <div className="modules-grid" style={{ marginTop: 20 }}>
-        {filtered.map((m, i) => (
-          <Link key={i} to={m.path} className="module-link">
-            <div className={`module-card ${m.featured ? 'module-card--featured' : ''}`}>
-              {m.featured && <div className="featured-badge">Featured</div>}
-              <div className="icon-circle" aria-hidden>{m.icon}</div>
-              <h3>
-                {m.title}
-              </h3>
-              <p>{m.desc}</p>
+        <div className="search-container">
+          <div className="search-wrapper">
+            <span className="search-icon">🔍</span>
+            <input
+              className="hub-search"
+              placeholder="Search modules..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Search modules"
+            />
+          </div>
+        </div>
 
-              {/* module metadata: small chips */}
-              {m.stats && (
-                <div className="module-meta" aria-hidden>
-                  <span>{m.stats.items} datasets</span>
-                  <span>• {m.stats.views} views</span>
-                  <span>• Last run {m.stats.lastRun}</span>
+        {filtered.length === 0 ? (
+          <div className="no-results">
+            <p>No modules found matching "{query}"</p>
+          </div>
+        ) : (
+          <div className="modules-grid">
+            {filtered.map((m, i) => (
+              <Link key={i} to={m.path} className="module-link">
+                <div className={`module-card`} style={{'--index': i}}>
+                  <div className="card-header">
+                    <div className="module-icon">{m.icon}</div>
+                    <div className={`module-status ${m.status?.toLowerCase()}`}>{m.status}</div>
+                  </div>
+                  <h3 className="module-title">{m.title}</h3>
+                  <p className="module-desc">{m.desc}</p>
+
+                  <div className="module-footer">
+                    <div className="module-stats">
+                      <span>📦 {m.stats.items} items</span>
+                      <span>👁️ {m.stats.views} views</span>
+                    </div>
+                    <div className="module-updated">
+                      <span>Last updated: {m.updated}</span>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
-          </Link>
-        ))}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
+
+      <footer className="hub-footer">
+        <div className="footer-content">
+          <p>© 2026 Smartlytics. Built with ❤️ for data professionals</p>
+          <div className="footer-links">
+            <a href="#" data-tooltip="Documentation">📚 Docs</a>
+            <a href="#" data-tooltip="Support">💬 Support</a>
+            <a href="#" data-tooltip="GitHub">🐙 GitHub</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

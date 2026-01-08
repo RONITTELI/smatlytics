@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import ChartView from "../components/ChartView";
+import "./auto-dashboard.css";
 
 export default function AutoDashboard() {
+  const [activeTab, setActiveTab] = useState("overview");
+
   const charts = [
     {
       title: "Employees by Department",
@@ -16,14 +19,36 @@ export default function AutoDashboard() {
   ];
 
   return (
-    <div style={{ padding: "30px", background: "#f4f6f8", minHeight: "100vh" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
-        📊 Auto Generated Dashboard
-      </h1>
+    <div className="auto-dashboard-page">
+      <div className="dashboard-header">
+        <h1>📊 Auto Generated Dashboard</h1>
+        <p>AI-powered insights from your data</p>
+      </div>
 
-      {charts.map((chart, index) => (
-        <ChartView key={index} chart={chart} />
-      ))}
+      <div className="dashboard-container">
+        <div className="tabs">
+          <button
+            className={`tab ${activeTab === "overview" ? "active" : ""}`}
+            onClick={() => setActiveTab("overview")}
+          >
+            Overview
+          </button>
+          <button
+            className={`tab ${activeTab === "analytics" ? "active" : ""}`}
+            onClick={() => setActiveTab("analytics")}
+          >
+            Analytics
+          </button>
+        </div>
+
+        <div className="charts-grid">
+          {charts.map((chart, index) => (
+            <div key={index} className="chart-wrapper">
+              <ChartView chart={chart} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

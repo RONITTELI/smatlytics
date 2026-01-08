@@ -1,24 +1,37 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./auth.css";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './auth.css';
 
 export default function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
     setLoading(true);
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/login");
+      localStorage.setItem('isLoggedIn', 'true');
+      navigate('/analytics-hub');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -27,42 +40,48 @@ export default function Register() {
   };
 
   return (
-    <div className="auth-container">
-      <h2 className="auth-title">Create Account</h2>
+    <div className='auth-page'>
+      <div className='auth-container'>
+        <h2 className='auth-title'>Get Started</h2>
+        <p className='auth-subtitle'>Create your Smartlytics account</p>
 
-      <form className="auth-form" onSubmit={handleRegister}>
-        <div className="form-group">
-          <label>Email</label>
+        <form onSubmit={handleRegister}>
           <input
-            type="email"
-            placeholder="Enter your email"
+            type='email'
+            placeholder='Email Address'
             value={email}
             required
             onChange={(e) => setEmail(e.target.value)}
+            disabled={loading}
           />
-        </div>
 
-        <div className="form-group">
-          <label>Password</label>
           <input
-            type="password"
-            placeholder="Create a password"
+            type='password'
+            placeholder='Password (min 6 chars)'
             value={password}
             required
             onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
           />
-        </div>
 
-        {error && <div className="message error">{error}</div>}
+          <input
+            type='password'
+            placeholder='Confirm Password'
+            value={confirmPassword}
+            required
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            disabled={loading}
+          />
 
-        <button className="auth-button" type="submit" disabled={loading}>
-          {loading ? <span className="spinner"></span> : "Register"}
-        </button>
-      </form>
+          {error && <div style={{color: '#ef4444', marginBottom: '1rem', fontSize: '0.9rem'}}>Error: {error}</div>}
 
-      <div className="auth-links">
+          <button type='submit' disabled={loading}>
+            {loading ? 'Creating Account...' : 'Create Account'}
+          </button>
+        </form>
+
         <p>
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link to='/login'>Sign In</Link>
         </p>
       </div>
     </div>
