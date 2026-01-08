@@ -1,0 +1,216 @@
+/* auth.css */
+
+/* Import Google Fonts for better typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+/* CSS Variables for easy theming and consistency */
+:root {
+  --primary-color: #4f46e5; /* Indigo */
+  --primary-hover: #3730a3;
+  --secondary-color: #f3f4f6; /* Light gray for subtle backgrounds */
+  --background-color: #f9fafb; /* Light gray */
+  --card-background: #ffffff;
+  --text-color: #111827; /* Dark gray */
+  --text-muted: #6b7280; /* Medium gray */
+  --border-color: #d1d5db; /* Light border */
+  --error-color: #ef4444; /* Red for errors */
+  --success-color: #10b981; /* Green for success states */
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --border-radius: 12px; /* Slightly more rounded for a modern feel */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother transitions */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-secondary: 'Roboto', sans-serif;
+}
+
+/* Global reset for better consistency */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: linear-gradient(135deg, var(--background-color) 0%, #e5e7eb 100%); /* Subtle gradient background */
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Main container - Made bigger with increased max-width and padding */
+.auth-container {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 3rem 2.5rem; /* Increased padding for more space */
+  width: 100%;
+  max-width: 500px; /* Increased from 400px to make the box bigger */
+  text-align: center;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background pattern for visual interest */
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Title - Enhanced with better font and spacing */
+.auth-title {
+  font-family: var(--font-secondary);
+  font-size: 2.25rem; /* Larger for emphasis */
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+  position: relative;
+  z-index: 1;
+}
+
+/* Input fields - Improved styling with icons and better focus */
+.auth-container input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-family: var(--font-primary);
+  background-color: #ffffff;
+  color: var(--text-color);
+  transition: var(--transition);
+  outline: none;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-container input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+  transform: translateY(-2px);
+}
+
+.auth-container input::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Button - Enhanced with gradient and better hover effects */
+.auth-container button {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: var(--transition);
+  outline: none;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container button:hover {
+  background: linear-gradient(135deg, var(--primary-hover) 0%, #1e1b4b 100%);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.auth-container button:active {
+  transform: translateY(-1px);
+}
+
+/* Paragraph and link - Better typography */
+.auth-container p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-container a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+  position: relative;
+}
+
+.auth-container a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Add a subtle animation on load */
+.auth-container {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design - Better mobile experience */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+    max-width: 100%;
+  }
+
+  .auth-title {
+    font-size: 1.875rem;
+  }
+
+  .auth-container input,
+  .auth-container button {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Accessibility: Enhanced focus visible for better keyboard navigation */
+.auth-container input:focus-visible,
+.auth-container button:focus-visible,
+.auth-container a:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Dark mode support (optional, if you want to add a toggle later) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #111827;
+    --card-background: #1f2937;
+    --text-color: #f9fafb;
+    --text-muted: #9ca3af;
+    --border-color: #374151;
+  }
+}
