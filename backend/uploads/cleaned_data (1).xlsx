@@ -1,0 +1,13 @@
+{
+  "columns": [
+    "college_id",
+    "college_name",
+    "university",
+    "courses",
+    "students"
+  ],
+  "dashboard": [],
+  "download_url": "/cleaned/cleaned_data.xlsx",
+  "message": "File cleaned successfully",
+  "schema": "generic"
+}
